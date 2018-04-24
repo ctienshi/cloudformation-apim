@@ -856,19 +856,6 @@ Resources:
               - ':server-certificate'
               - /
               - !Ref CertificateName
-        - LoadBalancerPort: '8243'
-          InstancePort: '8243'
-          Protocol: HTTPS
-          InstanceProtocol: HTTPS
-          PolicyNames:
-            - LBStickyPolicy
-          SSLCertificateId: !Join
-            - ''
-            - - 'arn:aws:iam::'
-              - !Ref 'AWS::AccountId'
-              - ':server-certificate'
-              - /
-              - !Ref CertificateName
       HealthCheck:
           Target: 'TCP:9763'
           HealthyThreshold: '3'
@@ -997,6 +984,36 @@ Parameters:
     Default: wso2carbon
     MinLength: 8
     NoEcho: true
+  WUMUsername:
+    Type: String
+    Default: ""
+    Description: Enter WUM User Name
+  WUMPassword:
+    Type: String
+    Default: ""
+    NoEcho: true
+    Description: Enter WUM User Password to get the updated WSO2 products deployed. If not provided standard released pack will be deployed
+  JDK:
+    Type: String
+    Default: "JDK8"
+    Description: Target Java version
+    AllowedValues:
+      - JDK7
+      - JDK8
+  DBEngine:
+    Type: String
+    Default: "mysql"
+    Description: Database Engine
+    AllowedValues:
+      - mysql
+      - postgres
+      - mariadb
+      - sqlserver-ex
+      - oracle-se
+  DBEngineVersion:
+    Type: String
+    Default: "5.6.35"
+    Description: Database Engine version
 Mappings:
   WSO2APIMAMIRegionMap:
     ap-northeast-1:
@@ -1018,7 +1035,7 @@ Mappings:
     us-east-1:
       Ubuntu140464bit: ami-c0a02eba
     us-east-2:
-      Ubuntu140464bit: ami-53113f36
+      Ubuntu140464bit: ami-086b076798589cd5d
     us-west-1:
       Ubuntu140464bit: ami-53281033
     us-west-2:
@@ -1047,7 +1064,7 @@ Mappings:
     us-east-1:
       Ubuntu140464bit: ami-08be3072
     us-east-2:
-      Ubuntu140464bit: ami-68efc10d
+      Ubuntu140464bit: ami-015c2d4bc58a612a2
     us-west-1:
       Ubuntu140464bit: ami-b32911d3
     us-west-2:
